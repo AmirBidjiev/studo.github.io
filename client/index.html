@@ -3,43 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Мини-приложение для домашней работы</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <style>
     /* Общие стили */
-    body {
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      box-sizing: border-box;
+    }
+
+    /* Убираем горизонтальный скролл */
+    body, html {
+      width: 100vw;
       height: 100vh;
-      background-color: #f0f0f0;
+      overflow: hidden; /* Полностью убираем скролл */
+      display: flex;
+      flex-direction: column;
       font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
     }
 
     /* Основной контейнер */
     .wrapper {
-      width: 100%;
-      max-width: 400px;
+      min-width: 100vw; /* Гарантированно растягиваем на всю ширину */
       height: 100vh;
-      background: linear-gradient(135deg, #ce9797, #464040);
       display: flex;
       flex-direction: column;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      align-items: center;
+      background: linear-gradient(135deg, #ce9797, #464040);
     }
 
-    /* Верхняя панель */
+    /* Верхняя панель (адаптивная) */
     .header {
-      width: 100%;
-      padding: 15px 20px;
+      width: 100%; /* Занимает всю ширину */
+      height: 10vh; /* Высота 10% от экрана */
+      min-height: 60px;
+      padding: 10px 20px;
       background-color: #fff;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
     }
-    
+
     .header img {
       width: 50px;
       height: 50px;
@@ -47,47 +53,49 @@
       object-fit: cover;
       margin-right: 15px;
     }
-    
+
     .header .account {
       font-size: 18px;
       font-weight: bold;
-      line-height: 1.4; /* Улучшенный межстрочный интервал */
+      line-height: 1.4;
     }
 
-    /* Центральный блок */
+    /* Контент */
     .content {
-      flex: 1;
+      width: 100%; /* Теперь заполняет всю ширину */
+      flex-grow: 1; /* Растягиваем контент на всю оставшуюся высоту */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
     }
-    
+
     .button {
-      width: 90%;
-      height: 60px;
-      font-size: 18px;
+      width: 80%;
+      max-width: 400px;
+      height: 65px;
+      font-size: 20px;
+      font-weight: bold;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background-color: #4CAF50;
       color: white;
       cursor: pointer;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s, transform 0.2s;
-      padding: 10px;
       text-align: center;
     }
 
     .button:hover {
       background-color: #45a049;
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
-    
-    /* Отступ между кнопками */
+
+    /* Увеличенный отступ между кнопками */
     .button:not(:last-child) {
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
+
   </style>
 </head>
 <body>
@@ -97,9 +105,9 @@
       <div class="account">Имя аккаунта</div>
     </div>
     <div class="content">
-      <button class="button">Помощь с заданиями и проектами</button>
-      <button class="button">Продажа материалов для обучения</button>
-      <button class="button">Найти интересующий стартап</button>
+      <button class="button">Решение задач и проектов</button>
+      <button class="button">Учебные материалы</button>
+      <button class="button">Поиск стартапов</button>
     </div>
   </div>
 </body>
