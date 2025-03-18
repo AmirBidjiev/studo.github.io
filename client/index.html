@@ -2,30 +2,28 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Мини-приложение для домашней работы</title>
+  <title>Мини-приложение Telegram</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    /* Общие стили */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Убираем горизонтальный скролл */
     body, html {
       width: 100vw;
       height: 100vh;
-      overflow: hidden; /* Полностью убираем скролл */
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
     }
 
-    /* Основной контейнер */
     .wrapper {
-      min-width: 100vw; /* Гарантированно растягиваем на всю ширину */
+      width: 100vw;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -33,10 +31,9 @@
       background: linear-gradient(135deg, #ce9797, #464040);
     }
 
-    /* Верхняя панель (адаптивная) */
     .header {
-      width: 100%; /* Занимает всю ширину */
-      height: 10vh; /* Высота 10% от экрана */
+      width: 100%;
+      height: 10vh;
       min-height: 60px;
       padding: 10px 20px;
       background-color: #fff;
@@ -60,10 +57,9 @@
       line-height: 1.4;
     }
 
-    /* Контент */
     .content {
-      width: 100%; /* Теперь заполняет всю ширину */
-      flex-grow: 1; /* Растягиваем контент на всю оставшуюся высоту */
+      width: 100%;
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -91,24 +87,108 @@
       transform: scale(1.03);
     }
 
-    /* Увеличенный отступ между кнопками */
     .button:not(:last-child) {
       margin-bottom: 40px;
     }
 
+    /* Стили для "страниц" */
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-size: 24px;
+      font-weight: bold;
+      background: #fff;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 18px;
+      background: #ff5252;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+    }
   </style>
 </head>
 <body>
+
   <div class="wrapper">
     <div class="header">
       <img src="https://cs11.livemaster.ru/storage/topic/NxN/21/bf/3cb225261129dffe07c3ca9b736a8948adbel7.jpg?h=1VPC5BHQdF9ASb0Bp7-Zpg">
       <div class="account">Имя аккаунта</div>
     </div>
+    
     <div class="content">
-      <button class="button">Решение задач и проектов</button>
-      <button class="button">Учебные материалы</button>
-      <button class="button">Поиск стартапов</button>
+      <button class="button" onclick="navigateTo('tasks')">Решение задач и проектов</button>
+      <button class="button" onclick="navigateTo('materials')">Учебные материалы</button>
+      <button class="button" onclick="navigateTo('startups')">Поиск стартапов</button>
     </div>
   </div>
+
+  <!-- "Страницы", которые открываются -->
+  <div id="tasks" class="page">
+    <button class="back-button" onclick="goBack()">Назад</button>
+    <h1>Решение задач и проектов</h1>
+  </div>
+
+  <div id="materials" class="page">
+    <button class="back-button" onclick="goBack()">Назад</button>
+    <h1>Учебные материалы</h1>
+  </div>
+
+  <div id="startups" class="page">
+    <button class="back-button" onclick="goBack()">Назад</button>
+    <h1>Поиск стартапов</h1>
+  </div>
+
+  <script>
+    // Разворачиваем мини-приложение на весь экран
+    window.Telegram.WebApp.expand();
+
+    function navigateTo(pageId) {
+      // Прячем главную страницу
+      document.querySelector('.content').style.display = 'none';
+
+      // Показываем нужную страницу
+      document.getElementById(pageId).style.display = 'flex';
+
+      // Сохраняем состояние в истории
+      history.pushState({ page: pageId }, '', `#${pageId}`);
+    }
+
+    function goBack() {
+      // Показываем главную страницу
+      document.querySelector('.content').style.display = 'flex';
+
+      // Прячем все страницы
+      document.querySelectorAll('.page').forEach(page => {
+        page.style.display = 'none';
+      });
+
+      // Возвращаемся в истории браузера
+      history.pushState(null, '', '#');
+    }
+
+    // Если пользователь использует "Назад" в браузере
+    window.onpopstate = function(event) {
+      if (event.state && event.state.page) {
+        navigateTo(event.state.page);
+      } else {
+        goBack();
+      }
+    };
+  </script>
+
 </body>
 </html>
