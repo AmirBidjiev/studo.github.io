@@ -154,7 +154,13 @@
 
   <script>
     // Разворачиваем мини-приложение на весь экран
-    window.Telegram.WebApp.expand();
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.Telegram.WebApp) {
+        Telegram.WebApp.expand();
+        Telegram.WebApp.ready();
+        Telegram.WebApp.MainButton.hide();
+      }
+    });
 
     function navigateTo(pageId) {
       // Прячем главную страницу
